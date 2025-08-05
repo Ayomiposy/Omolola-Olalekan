@@ -38,8 +38,7 @@ function initMobileNav() {
 
 // Countdown Timer
 function initCountdown() {
-    // Set your wedding date here (YYYY-MM-DD HH:MM)
-    // Change this to your actual wedding date and time
+
     const weddingDate = new Date('2025-09-20T09:00:00').getTime();
     
     function updateCountdown() {
@@ -133,8 +132,8 @@ This RSVP was submitted from your wedding website.
     `);
     
     // Send email to both addresses
-    // const yourEmail = 'tolulope@gmail.com'; // REPLACE WITH YOUR EMAIL
-    // const clientEmail = 'tobi@gmail.com'; // REPLACE WITH CLIENT'S EMAIL
+    const yourEmail = 'georgejoshuaayomiposi@gmail.com';
+    const clientEmail = 'Olajideomotea@gmail.com';
     
     // Send to your email
     const yourMailtoLink = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
