@@ -200,7 +200,7 @@ html {
 }
 
 .hero-tagline {
-    font-family: var(--font-script);
+    font-family: var(--font-heading);
     font-size: 1.2rem;
     color: var(--primary);
 }
@@ -813,7 +813,7 @@ html {
 }
 
 .footer-title {
-    font-family: var(--font-script);
+    font-family: var(--font-body);
     font-size: 2rem;
 }
 
