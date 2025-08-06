@@ -6,10 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Countdown timer
     initCountdown();
-    
-    // RSVP form
-    initRSVPForm(); 
-    
+        
     // Scroll animations
     initScrollAnimations();
     
@@ -85,117 +82,68 @@ function initCountdown() {
 }
 
 // RSVP Form
-function initRSVPForm() {
-    const form = document.getElementById('rsvp-form');
-    
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            attendance: document.getElementById('attendance').value
-        };
-        
-        // Validate form
-        if (!formData.name || !formData.email || !formData.attendance) {
-            alert('Please fill in all fields');
-            return;
-        }
-        
-        // Submit to Google Form
-        submitToGoogleForm(formData);
-    });
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("rsvp-form");
+
+    if (form) {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // prevent reload
+
+            const formData = new FormData(form);
+            const name = formData.get("name");
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+            })
+                .then((res) => res.text())
+                .then(() => {
+                    showSuccessModal(name); // 🎉 Show thank-you modal
+                    form.reset(); // reset form
+                })
+                .catch((err) => {
+                    console.error("Submission error:", err);
+                    alert("❌ Something went wrong. Please try again.");
+                });
+        });
+    }
+});
+
+// Show modal
+function showSuccessModal(name) {
+    const modal = document.getElementById('success-modal');
+    const message = document.getElementById('success-message');
+
+    if (modal && message) {
+        message.textContent = `Thank you ${name}! We've received your RSVP.`;
+        modal.style.display = 'flex';
+    }
 }
 
-// Submit RSVP with email notifications to both addresses
-function submitToGoogleForm(formData) {
-    // Store locally first
-    storeLocally(formData);
-    
-    // Create email content
-    const subject = encodeURIComponent(`Wedding RSVP - ${formData.name}`);
-    const body = encodeURIComponent(`
-New Wedding RSVP Received!
-
-Guest Details:
-Name: ${formData.name}
-Email: ${formData.email}
-Attendance: ${formData.attendance}
-
-Submitted: ${new Date().toLocaleString()}
-
-View all RSVPs: ${window.location.origin}/admin.html
-
----
-This RSVP was submitted from your wedding website.
-    `);
-    
-    // Send email to both addresses
-    const yourEmail = 'georgejoshuaayomiposi@gmail.com';
-    const clientEmail = 'Olajideomotea@gmail.com';
-    
-    // Send to your email
-    const yourMailtoLink = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
-    window.open(yourMailtoLink, '_blank');
-    
-    // Send to client email
-    const clientMailtoLink = `mailto:${clientEmail}?subject=${subject}&body=${body}`;
-    window.open(clientMailtoLink, '_blank');
-    
-    // Show success message
-    showSuccessModal(formData.name);
-    
-    // Reset form
-    document.getElementById('rsvp-form').reset();
-    
-    // Log for debugging
-    console.log('Form submitted with data:', formData);
-    console.log('Email notifications sent to both addresses');
+// Close modal (button or background click)
+function closeModal() {
+    const modal = document.getElementById('success-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
-// Store RSVP data locally as backup
-function storeLocally(formData) {
-    let rsvps = JSON.parse(localStorage.getItem('weddingRSVPs') || '[]');
-    rsvps.push({
-        ...formData,
-        timestamp: new Date().toISOString()
-    });
-    localStorage.setItem('weddingRSVPs', JSON.stringify(rsvps));
-    
-    // Log for testing
-    console.log('RSVP stored locally:', formData);
-    console.log('All stored RSVPs:', rsvps);
-}
+document.addEventListener('click', function (e) {
+    const modal = document.getElementById('success-modal');
+    const content = document.querySelector('.modal-content');
+    if (modal && e.target === modal) {
+        closeModal();
+    }
+});
 
-// Function to view stored RSVPs (for testing)
+// Optional: View RSVPs from localStorage (for testing/debugging)
 function viewStoredRSVPs() {
     const rsvps = JSON.parse(localStorage.getItem('weddingRSVPs') || '[]');
     console.log('All stored RSVPs:', rsvps);
     alert(`Stored RSVPs: ${rsvps.length}\nCheck console for details.`);
 }
 
-// Success Modal
-function showSuccessModal(name) {
-    const modal = document.getElementById('success-modal');
-    const message = document.getElementById('success-message');
-    
-    message.textContent = `Thank you ${name}! We've received your response.`;
-    modal.classList.remove('hidden');
-}
 
-function closeModal() {
-    const modal = document.getElementById('success-modal');
-    modal.classList.add('hidden');
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('success-modal');
-    if (e.target === modal) {
-        closeModal();
-    }
-});
 
 // Scroll Animations
 function initScrollAnimations() {
