@@ -269,6 +269,8 @@
               id="rsvp-form"
               action="https://script.google.com/macros/s/AKfycbwfcQxOs8-o4y2VwjZ1BlEu_Bw55sy0UsObnYcnJUHe7j4P3Qa8GL9fYzuS-bnhz3-mEg/exec"
               method="POST"
+              target="hiddenFrame"
+              onsubmit="showSuccessModal();"
             >
               <div class="form-group">
                 <label for="name">Full Name</label>
@@ -504,13 +506,18 @@
     </footer>
 
     <!-- Success Modal -->
-    <div id="success-modal">
-      <div class="modal-content">
-        <button class="modal-close" onclick="closeModal()">&times;</button>
+<div id="success-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
         <h3>RSVP Submitted Successfully!</h3>
-        <p id="success-message">Thank you! We've received your response.</p>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
       </div>
+      <p id="success-message">Thank you! We've received your RSVP.</p>
     </div>
+  </div>  
+
+    <iframe name="hiddenFrame" style="display: none;"></iframe>
+
 
     <script src="script.js"></script>
   </body>

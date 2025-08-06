@@ -109,32 +109,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Show modal
 function showSuccessModal(name) {
     const modal = document.getElementById('success-modal');
     const message = document.getElementById('success-message');
 
     if (modal && message) {
         message.textContent = `Thank you ${name}! We've received your RSVP.`;
-        modal.style.display = 'flex';
+        modal.classList.remove('hidden'); // 👈 show modal
     }
 }
 
-// Close modal (button or background click)
 function closeModal() {
     const modal = document.getElementById('success-modal');
     if (modal) {
-        modal.style.display = 'none';
+        modal.classList.add('hidden'); // 👈 hide modal
     }
 }
 
 document.addEventListener('click', function (e) {
     const modal = document.getElementById('success-modal');
-    const content = document.querySelector('.modal-content');
     if (modal && e.target === modal) {
         closeModal();
     }
 });
+
 
 // Optional: View RSVPs from localStorage (for testing/debugging)
 function viewStoredRSVPs() {
