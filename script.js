@@ -82,57 +82,31 @@ function initCountdown() {
 }
 
 // RSVP Form
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("rsvp-form");
-
-    if (form) {
-        form.addEventListener("submit", function (e) {
-            e.preventDefault(); // prevent reload
-
-            const formData = new FormData(form);
-            const name = formData.get("name");
-
-            fetch(form.action, {
-                method: "POST",
-                body: formData,
-            })
-                .then((res) => res.text())
-                .then(() => {
-                    showSuccessModal(name); // 🎉 Show thank-you modal
-                    form.reset(); // reset form
-                })
-                .catch((err) => {
-                    console.error("Submission error:", err);
-                    alert("❌ Something went wrong. Please try again.");
-                });
-        });
-    }
-});
-
-function showSuccessModal(name) {
+function handleSuccess(event) {
+    const nameInput = document.querySelector('input[name="name"]');
+    showSuccessModal(nameInput.value);
+    document.getElementById('rsvp-form').reset();
+  }
+  
+  function showSuccessModal(name) {
     const modal = document.getElementById('success-modal');
-    const message = document.getElementById('success-message');
-
-    if (modal && message) {
-        message.textContent = `Thank you ${name}! We've received your RSVP.`;
-        modal.classList.remove('hidden'); // 👈 show modal
-    }
-}
-
-function closeModal() {
+    const msg = document.getElementById('success-message');
+    msg.textContent = `Thank you ${name}! We've received your RSVP.`;
+    modal.classList.remove('hidden');
+  }
+  
+  function closeModal() {
     const modal = document.getElementById('success-modal');
-    if (modal) {
-        modal.classList.add('hidden'); // 👈 hide modal
-    }
-}
-
-document.addEventListener('click', function (e) {
+    modal.classList.add('hidden');
+  }
+  
+  document.addEventListener('click', function (e) {
     const modal = document.getElementById('success-modal');
-    if (modal && e.target === modal) {
-        closeModal();
+    if (e.target === modal) {
+      closeModal();
     }
-});
-
+  });
+  
 
 // Optional: View RSVPs from localStorage (for testing/debugging)
 function viewStoredRSVPs() {
