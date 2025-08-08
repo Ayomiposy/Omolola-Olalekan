@@ -81,41 +81,6 @@ function initCountdown() {
     setInterval(updateCountdown, 1000);
 }
 
-// RSVP Form
-function handleSuccess(event) {
-    const nameInput = document.querySelector('input[name="name"]');
-    showSuccessModal(nameInput.value);
-    document.getElementById('rsvp-form').reset();
-  }
-  
-  function showSuccessModal(name) {
-    const modal = document.getElementById('success-modal');
-    const msg = document.getElementById('success-message');
-    msg.textContent = `Thank you ${name}! We've received your RSVP.`;
-    modal.classList.remove('hidden');
-  }
-  
-  function closeModal() {
-    const modal = document.getElementById('success-modal');
-    modal.classList.add('hidden');
-  }
-  
-  document.addEventListener('click', function (e) {
-    const modal = document.getElementById('success-modal');
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-  
-
-// Optional: View RSVPs from localStorage (for testing/debugging)
-function viewStoredRSVPs() {
-    const rsvps = JSON.parse(localStorage.getItem('weddingRSVPs') || '[]');
-    console.log('All stored RSVPs:', rsvps);
-    alert(`Stored RSVPs: ${rsvps.length}\nCheck console for details.`);
-}
-
-
 
 // Scroll Animations
 function initScrollAnimations() {
